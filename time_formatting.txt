@@ -1,0 +1,8 @@
+# Convert time in seconds to D+H:M:S duration, e.g. 689320 to 7+23:28:40.
+
+| eval duration_string=tostring(field_in_secs, "duration")
+
+
+# Convert time in D+H:M:S duration to HH Hr MM Min SS sec, e.g. 1+11:25:56 to 1 Day 11 Hr 25 Min 56 Secs.
+
+| eval duration=if(match(duration_string,"\+"),replace(duration_string,"(\d+)\+(\d+)\:(\d+)\:(\d+)","\1 Day \2 Hr \3 Min \4 Secs"),replace(duration_string,"(\d+)\:(\d+)\:(\d+)","\1 Hr \2 Min \3 Secs"))
