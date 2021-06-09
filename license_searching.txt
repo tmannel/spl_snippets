@@ -1,0 +1,5 @@
+# Search license utilization by sourcetype using the _metrics index (Splunk 8+)
+
+| mstats span=1h sum(_value) as sum_b where index=_metrics metric_name=license_usage by sourcetype
+| eval sum_gb = sum_b/1024/1024/1024
+| timechart span=1d eval(round(sum(sum_gb),2)) as daily_gb by sourcetype
