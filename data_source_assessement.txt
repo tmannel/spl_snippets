@@ -1,0 +1,13 @@
+``` This handy search shows your sourcetypes along with range and total count. ```
+
+| metadata type=sourcetypes index=*
+| sort - recentTime lastTime firstTime
+| foreach *Time
+    [rename <<FIELD>> as _time
+    | reltime
+    | rename reltime as <<FIELD>>_reltime
+    | eval _time = strftime(_time, "%c")
+    | rename _time as <<FIELD>>
+    | eval <<FIELD>> = <<FIELD>>." - ".<<FIELD>>_reltime
+    | fields - *reltime]
+| table sourcetype recentTime firstTime totalCount
