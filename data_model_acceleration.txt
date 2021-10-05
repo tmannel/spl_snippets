@@ -1,0 +1,4 @@
+| datamodelsimple
+| map maxsearches=30 search="| tstats summariesonly=t values(sourcetype) as accelerated_sourcetypes count as accelerated_count from datamodel=\"$datamodel$\"| eval datamodel=\"$datamodel$\" "
+| table datamodel accelerated_sourcetypes accelerated_count
+| sort - accelerated_count
