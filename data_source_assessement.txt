@@ -11,3 +11,12 @@
     | eval <<FIELD>> = <<FIELD>>." - ".<<FIELD>>_reltime
     | fields - *reltime]
 | table sourcetype recentTime firstTime totalCount
+
+```This is highly performant; it should be able to run over all time. It shows each index with total event count broken down by sourcetype.```
+
+| eventcount summarize=false index=* 
+| sort - count 
+| eval count_string=tostring(count, "commas") 
+| map search="metadata type=sourcetypes index=\"$index$\"| sort - totalCount | eval totalCount_string=tostring(totalCount, \"commas\") |eval index=\"$index$\", index_count=\"$count$\", sourcetype=sourcetype.\" (\".totalCount_string.\")\"" 
+| stats list(sourcetype) as sourcetypes max(index_count) as count by index
+| sort - count
