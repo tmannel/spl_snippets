@@ -1,4 +1,5 @@
 | eventcount summarize=false index=*
+| dedup server
 | sort - count 
 | eval count_string=tostring(count, "commas") 
 | map search="| metadata type=sourcetypes index=\"$index$\"
