@@ -12,7 +12,6 @@
     | rename reltime as <<FIELD>>_reltime
     | eval _time = strftime(_time, \"%Y-%m-%d %H:%M:%S\")
     | rename _time as <<FIELD>>]" 
-| table index sourcetype recentTime* firstTime* totalCount 
 | foreach *Time 
     [| eval <<FIELD>>_epoch=strptime(<<FIELD>>, "%Y-%m-%d %H:%M:%S")
     | eval <<FIELD>>_epoch=round(<<FIELD>>_epoch, 0)] 
