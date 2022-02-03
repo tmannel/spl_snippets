@@ -8,4 +8,4 @@
     | rename _time as <<FIELD>> 
     | eval <<FIELD>>=<<FIELD>>." (".<<FIELD>>_reltime.")"] 
 | table sourcetype lastTime firstTime totalCount 
-| sort - lastTime
+| sort 0 - lastTime
