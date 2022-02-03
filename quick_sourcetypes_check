@@ -1,0 +1,11 @@
+| metadata type=sourcetypes index=* 
+| fields - recentTime 
+| foreach *Time 
+    [ rename <<FIELD>> as _time 
+    | reltime 
+    | rename reltime as <<FIELD>>_reltime 
+    | eval _time = strftime(_time, "%Y-%m-%d %H:%M:%S") 
+    | rename _time as <<FIELD>> 
+    | eval <<FIELD>>=<<FIELD>>." (".<<FIELD>>_reltime.")"] 
+| table sourcetype lastTime firstTime totalCount 
+| sort - lastTime
